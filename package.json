@@ -47,6 +47,7 @@
 			"prettier 'packages/*/**/*.js' 'examples/**/*.js' 'site/**/*.js'",
 		"precommit": "lint-staged",
     "prepublish": "npm test",
+    "prepare": "npm run build",
 		"start": "lerna run --parallel --stream start",
     "watch": "lerna run --parallel --stream watch"
 	},
