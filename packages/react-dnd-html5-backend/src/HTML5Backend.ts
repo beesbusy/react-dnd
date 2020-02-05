@@ -7,7 +7,7 @@ import {
 	XYCoord,
 } from 'dnd-core'
 import EnterLeaveCounter from './EnterLeaveCounter'
-// import { isFirefox } from './BrowserDetector'
+import { isFirefox } from './BrowserDetector'
 import {
 	getNodeClientOffset,
 	getEventClientOffset,
@@ -513,20 +513,18 @@ export default class HTML5Backend implements Backend {
 
 		this.altKeyPressed = e.altKey
 
-		/**
-		 * This piece of code seems to create the visual glitch of dragged element position
-		 * because the coordinates returned by getEventClientOffset are wrong in this case
-		 */
+		if (!isFirefox() && e.fromElement !== null) {
+			// Don't emit hover in `dragenter` on Firefox due to an edge case.
+			// If the target changes position as the result of `dragenter`, Firefox
+			// will still happily dispatch `dragover` despite target being no longer
+			// there. The easy solution is to only fire `hover` in `dragover` on FF.
 
-		// if (!isFirefox()) {
-		// 	// Don't emit hover in `dragenter` on Firefox due to an edge case.
-		// 	// If the target changes position as the result of `dragenter`, Firefox
-		// 	// will still happily dispatch `dragover` despite target being no longer
-		// 	// there. The easy solution is to only fire `hover` in `dragover` on FF.
-		// 	this.actions.hover(dragEnterTargetIds, {
-		// 		clientOffset: getEventClientOffset(e),
-		// 	})
-		// }
+			// Hack: the first dragenter event, when starting to drag, returns wrong
+			// coordinates, so we silence it
+			this.actions.hover(dragEnterTargetIds, {
+				clientOffset: getEventClientOffset(e),
+			})
+		}
 
 		const canDrop = dragEnterTargetIds.some(targetId =>
 			this.monitor.canDropOnTarget(targetId),
