@@ -545,7 +545,7 @@ export class HTML5BackendImpl implements Backend {
 		this.dragEnterTargetIds.unshift(targetId)
 	}
 
-	public handleTopDragEnter = (e: DragEvent): void => {
+	public handleTopDragEnter = (e: any): void => {
 		const { dragEnterTargetIds } = this
 		this.dragEnterTargetIds = []
 
