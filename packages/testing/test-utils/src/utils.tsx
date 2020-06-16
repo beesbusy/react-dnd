@@ -1,25 +1,47 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import * as React from 'react'
-import BackendFactory, {
-	TestBackend,
-	getInstance,
-} from 'react-dnd-test-backend'
-import { DndComponent, DndProvider } from 'react-dnd'
-import { Backend } from 'dnd-core'
+import { TestBackend, getInstance, ITestBackend } from 'react-dnd-test-backend'
+import { DndComponent, DndContext, DndProvider } from 'react-dnd'
+import { Backend, DragDropManager } from 'dnd-core'
 import { act } from 'react-dom/test-utils'
+
+interface RefType {
+	getManager: () => DragDropManager | undefined,
+	getDecoratedComponent<T>(): T
+}
 
 /**
  * Wrap a DnD component or test case in a DragDropContext
  *
  * @param DecoratedComponent The component to decorate
  */
-export function wrapInTestContext(DecoratedComponent: any): any {
-	const result: React.FC<any> = (props: any) => (
-		<DndProvider backend={BackendFactory}>
-			<DecoratedComponent {...props} />
-		</DndProvider>
-	)
-	result.displayName = 'TestContextWrapper'
-	return result
+export function wrapInTestContext(
+	DecoratedComponent: React.ComponentType<any>,
+): any {
+	const forwardedRefFunc = (props: any, ref: React.Ref<RefType>) => {
+		const dragDropManager = React.useRef<any>(undefined)
+		const decoratedComponentRef = React.useRef<any>(undefined)
+
+		React.useImperativeHandle(ref, () => ({
+			getManager: () => dragDropManager.current,
+			getDecoratedComponent: () => decoratedComponentRef.current
+		}))
+
+		return (
+			<DndProvider backend={TestBackend}>
+				<DndContext.Consumer>
+					{(ctx) => {
+						dragDropManager.current = ctx.dragDropManager
+						return null
+					}}
+				</DndContext.Consumer>
+				<DecoratedComponent ref={decoratedComponentRef} {...props} />
+			</DndProvider>
+		)
+	}
+	forwardedRefFunc.displayName = 'TestContextWrapper'
+
+	return React.forwardRef(forwardedRefFunc)
 }
 
 /**
@@ -30,7 +52,7 @@ export function wrapInTestContext(DecoratedComponent: any): any {
  * @deprecated - This is no longer useful since ContextComponent was removed. This will be removed in a major version cut.
  */
 export function getBackendFromInstance<T extends Backend>(
-	instance: DndComponent<any>,
+	_instance: DndComponent<any>,
 ): T {
 	return getInstance() as any
 }
@@ -38,8 +60,8 @@ export function getBackendFromInstance<T extends Backend>(
 export function simulateDragDropSequence(
 	source: DndComponent<any>,
 	target: DndComponent<any>,
-	backend: TestBackend,
-) {
+	backend: ITestBackend,
+): void {
 	act(() => {
 		backend.simulateBeginDrag([source.getHandlerId()])
 		backend.simulateHover([target.getHandlerId()])
@@ -51,8 +73,8 @@ export function simulateDragDropSequence(
 export function simulateHoverSequence(
 	source: DndComponent<any>,
 	target: DndComponent<any>,
-	backend: TestBackend,
-) {
+	backend: ITestBackend,
+): void {
 	act(() => {
 		backend.simulateBeginDrag([source.getHandlerId()])
 		backend.simulateHover([target.getHandlerId()])

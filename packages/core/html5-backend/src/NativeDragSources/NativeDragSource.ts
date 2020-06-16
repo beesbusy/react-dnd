@@ -12,7 +12,7 @@ export class NativeDragSource {
 	}
 
 	private initializeExposedProperties() {
-		Object.keys(this.config.exposeProperties).forEach(property => {
+		Object.keys(this.config.exposeProperties).forEach((property) => {
 			Object.defineProperty(this.item, property, {
 				configurable: true, // This is needed to allow redefining it later
 				enumerable: true,
@@ -27,10 +27,10 @@ export class NativeDragSource {
 		})
 	}
 
-	public loadDataTransfer(dataTransfer: DataTransfer | null | undefined) {
+	public loadDataTransfer(dataTransfer: DataTransfer | null | undefined): void {
 		if (dataTransfer) {
 			const newProperties: PropertyDescriptorMap = {}
-			Object.keys(this.config.exposeProperties).forEach(property => {
+			Object.keys(this.config.exposeProperties).forEach((property) => {
 				newProperties[property] = {
 					value: this.config.exposeProperties[property](
 						dataTransfer,
@@ -44,19 +44,19 @@ export class NativeDragSource {
 		}
 	}
 
-	public canDrag() {
+	public canDrag(): boolean {
 		return true
 	}
 
-	public beginDrag() {
+	public beginDrag(): any {
 		return this.item
 	}
 
-	public isDragging(monitor: DragDropMonitor, handle: string) {
+	public isDragging(monitor: DragDropMonitor, handle: string): boolean {
 		return handle === monitor.getSourceId()
 	}
 
-	public endDrag() {
+	public endDrag(): void {
 		// empty
 	}
 }

@@ -5,7 +5,7 @@ import { shallowEqual } from '@react-dnd/shallowequal'
 import { invariant } from '@react-dnd/invariant'
 import hoistStatics from 'hoist-non-react-statics'
 import { DragDropManager, Identifier } from 'dnd-core'
-import { DndContext } from '../index'
+import { DndContext } from '../common/DndContext'
 import { isPlainObject } from '../utils/js_utils'
 import { Connector } from '../common/SourceConnector'
 import { DndComponent } from './interfaces'
@@ -39,7 +39,7 @@ interface Handler<Props> {
 	receiveProps(props: Props): void
 }
 
-export default function decorateHandler<Props, CollectedProps, ItemIdType>({
+export function decorateHandler<Props, CollectedProps, ItemIdType>({
 	DecoratedComponent,
 	createHandler,
 	createMonitor,
@@ -202,7 +202,7 @@ export default function decorateHandler<Props, CollectedProps, ItemIdType>({
 					{({ dragDropManager }) => {
 						this.receiveDragDropManager(dragDropManager)
 						if (typeof requestAnimationFrame !== 'undefined') {
-							requestAnimationFrame(() => this.handlerConnector!.reconnect())
+							requestAnimationFrame(() => this.handlerConnector?.reconnect())
 						}
 						return (
 							<Decorated

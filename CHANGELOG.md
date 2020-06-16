@@ -1,10 +1,50 @@
-# [](https://github.com/react-dnd/react-dnd/compare/v9.5.1...v) (2019-11-26)
+# [](https://github.com/react-dnd/react-dnd/compare/v11.1.2...v) (2020-05-27)
+
+## [11.1.2](https://github.com/react-dnd/react-dnd/compare/v11.1.1...v11.1.2) (2020-05-27)
+
+### docs
+
+- update changelog ([64c80cf](https://github.com/react-dnd/react-dnd/commit/64c80cfe3b352b7814941d4baf17febee58ec232))
+
+## [11.1.1](https://github.com/react-dnd/react-dnd/compare/v10.0.2...v11.1.1) (2020-05-26)
+
+### build
+
+- add formatting check to lint stage (#2464) ([9db96b4](https://github.com/react-dnd/react-dnd/commit/9db96b4baf6f56ed51f1eb1e72a6a6992026b265)), closes [#2464](https://github.com/react-dnd/react-dnd/issues/2464)
+- move automerge if-statement to automerge step (#2489) ([68a1879](https://github.com/react-dnd/react-dnd/commit/68a187985a372a1282c34ace93499b1a6355a05e)), closes [#2489](https://github.com/react-dnd/react-dnd/issues/2489)
+- update dependabot if statement (#2490) ([af84889](https://github.com/react-dnd/react-dnd/commit/af8488955dc0a9a3d731c04dc826c913739b3ed5)), closes [#2490](https://github.com/react-dnd/react-dnd/issues/2490)
+- update node support spec to 10.x (#1850) ([0b06951](https://github.com/react-dnd/react-dnd/commit/0b0695136bf86593717f9ec31f91b0182603f642)), closes [#1850](https://github.com/react-dnd/react-dnd/issues/1850)
+
+### fix
+
+- correct issue with example generation due to example structure refactoring (#2480) ([efc251b](https://github.com/react-dnd/react-dnd/commit/efc251b2e6ea403db4d8ff7bcb9a8b37b4e716d4)), closes [#2480](https://github.com/react-dnd/react-dnd/issues/2480)
+- do not cancel touch events if they are non-cancelable (#2190) ([1b4019e](https://github.com/react-dnd/react-dnd/commit/1b4019e612f5f20aadc7113482dfa764c3124f4a)), closes [#2190](https://github.com/react-dnd/react-dnd/issues/2190)
+- remove circular dependencies (#2491) ([52eaace](https://github.com/react-dnd/react-dnd/commit/52eaacebbc523815f5fd2f977b9a26432552c1a2)), closes [#2491](https://github.com/react-dnd/react-dnd/issues/2491)
+- update wrapInTestContext to expose `getManager()` method (#1570) ([4ad004c](https://github.com/react-dnd/react-dnd/commit/4ad004c1a223c0bf3b31a0c1e0a7e5797d8b1291)), closes [#1570](https://github.com/react-dnd/react-dnd/issues/1570)
+
+## [10.0.2](https://github.com/react-dnd/react-dnd/compare/v10.0.1...v10.0.2) (2019-12-07)
+
+### build
+
+- use updated react-dnd/asap (#1685) ([ada6555](https://github.com/react-dnd/react-dnd/commit/ada65550b758a5de44b810a7b68753e7eaee24ac)), closes [#1685](https://github.com/react-dnd/react-dnd/issues/1685)
+
+## [10.0.1](https://github.com/react-dnd/react-dnd/compare/v10.0.0...v10.0.1) (2019-12-07)
+
+### docs
+
+- remove old links to TouchBackend ([6ac18e1](https://github.com/react-dnd/react-dnd/commit/6ac18e14dd1326c8f7a241ad0b376f49e08d8ce2)), closes [#1661](https://github.com/react-dnd/react-dnd/issues/1661)
+
+# [10.0.0](https://github.com/react-dnd/react-dnd/compare/v9.5.1...v10.0.0) (2019-12-07)
+
+### chore
+
+- update changelog ([7edc76e](https://github.com/react-dnd/react-dnd/commit/7edc76e2667f5648851fb1c510a83cd3cf4edc39))
+
+### fix
+
+- patch TouchBackend to solve e.targetTouches bug in iOS 13 (#1631) ([f6286ca](https://github.com/react-dnd/react-dnd/commit/f6286ca3a91e23e89d1e1a3150fa4b3a93ca92e2)), closes [#1631](https://github.com/react-dnd/react-dnd/issues/1631)
 
 ## [9.5.1](https://github.com/react-dnd/react-dnd/compare/v9.5.0...v9.5.1) (2019-11-26)
-
-### patch
-
-- Remove syntheticDefaultImport usage of react in react-dnd (#1629)
 
 ### build
 
@@ -608,13 +648,25 @@
 
 # [1.0.0](https://github.com/react-dnd/react-dnd/compare/v1.0.0-rc...v1.0.0) (2015-05-19)
 
+# [1.0.0-alpha.1](https://github.com/react-dnd/react-dnd/compare/v1.0.0-alpha...v1.0.0-alpha.1) (2015-04-30)
+
+## [0.9.8](https://github.com/react-dnd/react-dnd/compare/v0.9.7...v0.9.8) (2015-03-16)
+
+## [0.9.7](https://github.com/react-dnd/react-dnd/compare/v0.9.6...v0.9.7) (2015-03-15)
+
 # [1.0.0-rc](https://github.com/react-dnd/react-dnd/compare/v1.0.0-beta.0...v1.0.0-rc) (2015-05-11)
 
 # [1.0.0-beta.0](https://github.com/react-dnd/react-dnd/compare/v1.0.0-alpha.2...v1.0.0-beta.0) (2015-05-08)
 
 # [1.0.0-alpha.2](https://github.com/react-dnd/react-dnd/compare/v1.0.0-alpha.1...v1.0.0-alpha.2) (2015-05-04)
 
+# [1.0.0-alpha](https://github.com/react-dnd/react-dnd/compare/v0.9.8...v1.0.0-alpha) (2015-04-20)
+
 # [1.0.0-alpha.1](https://github.com/react-dnd/react-dnd/compare/v1.0.0-alpha...v1.0.0-alpha.1) (2015-04-30)
+
+## [0.9.8](https://github.com/react-dnd/react-dnd/compare/v0.9.7...v0.9.8) (2015-03-16)
+
+## [0.9.7](https://github.com/react-dnd/react-dnd/compare/v0.9.6...v0.9.7) (2015-03-15)
 
 # [1.0.0-alpha](https://github.com/react-dnd/react-dnd/compare/v0.9.8...v1.0.0-alpha) (2015-04-20)
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import ItemTypes from './ItemTypes'
+import { ItemTypes } from './ItemTypes'
 import { useDrag, DragSourceMonitor } from 'react-dnd'
 
 const style: React.CSSProperties = {
@@ -21,11 +21,16 @@ interface DropResult {
 	name: string
 }
 
-const Box: React.FC<BoxProps> = ({ name }) => {
+interface DragItem {
+	name: string
+	type: string
+}
+
+export const Box: React.FC<BoxProps> = ({ name }) => {
 	const item = { name, type: ItemTypes.BOX }
 	const [{ opacity }, drag] = useDrag({
 		item,
-		end(item: { name: string } | undefined, monitor: DragSourceMonitor) {
+		end(item: DragItem | undefined, monitor: DragSourceMonitor) {
 			const dropResult: DropResult = monitor.getDropResult()
 			if (item && dropResult) {
 				let alertMessage = ''
@@ -54,4 +59,3 @@ const Box: React.FC<BoxProps> = ({ name }) => {
 		</div>
 	)
 }
-export default Box

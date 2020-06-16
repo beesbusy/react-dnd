@@ -2,7 +2,7 @@ import React, { useRef, useState, useCallback } from 'react'
 import { ConnectDropTarget } from 'react-dnd'
 import { DropTarget } from 'react-dnd'
 import Card from './Card'
-import ItemTypes from './ItemTypes'
+import { ItemTypes } from './ItemTypes'
 import update from 'immutability-helper'
 
 const style = {
@@ -67,7 +67,7 @@ const Container: React.FC<ContainerProps> = ({ connectDropTarget }) => {
 
 	const findCard = useCallback(
 		(id: string) => {
-			const card = cards.filter(c => `${c.id}` === id)[0]
+			const card = cards.filter((c) => `${c.id}` === id)[0]
 			return {
 				card,
 				index: cards.indexOf(card),
@@ -79,7 +79,7 @@ const Container: React.FC<ContainerProps> = ({ connectDropTarget }) => {
 	connectDropTarget(ref)
 	return (
 		<div ref={ref} style={style}>
-			{cards.map(card => (
+			{cards.map((card) => (
 				<Card
 					key={card.id}
 					id={`${card.id}`}
@@ -92,6 +92,6 @@ const Container: React.FC<ContainerProps> = ({ connectDropTarget }) => {
 	)
 }
 
-export default DropTarget(ItemTypes.CARD, {}, connect => ({
+export default DropTarget(ItemTypes.CARD, {}, (connect) => ({
 	connectDropTarget: connect.dropTarget(),
 }))(Container)

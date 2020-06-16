@@ -1,6 +1,6 @@
-import * as React from 'react'
+import React, { memo } from 'react'
 import styled from 'styled-components'
-import NavBar from './navbar'
+import { NavBar } from './navbar'
 
 export interface HeaderProps {
 	debugMode?: boolean
@@ -27,15 +27,14 @@ const DebugModeFlag: React.FC<HeaderProps> = ({ debugMode, touchBackend }) => {
 	)
 }
 
-const Header: React.FC<HeaderProps> = props => (
-	<Container>
-		<DebugModeFlag {...props} />
-		<NavBar />
-	</Container>
-)
-
-export default Header
-
+export const Header: React.FC<HeaderProps> = memo(function Header(props) {
+	return (
+		<Container>
+			<DebugModeFlag {...props} />
+			<NavBar />
+		</Container>
+	)
+})
 const Container = styled.header`
 	overflow: hidden;
 `

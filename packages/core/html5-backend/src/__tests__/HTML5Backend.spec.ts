@@ -1,21 +1,16 @@
 declare const global: any
 
-import HTML5Backend from '../HTML5Backend'
-import createBackend from '../index'
+import { HTML5BackendImpl } from '../HTML5BackendImpl'
+import { HTML5Backend } from '../index'
 import { DragDropManager } from 'dnd-core'
 
 describe('The HTML5 Backend', () => {
 	describe('window injection', () => {
 		it('uses an undefined window when no window is available', () => {
-			const mockManager: DragDropManager = {
-				getActions: () => null,
-				getMonitor: () => null,
-				getRegistry: () => null,
-			} as any
 			const mockWindow = global.window
 			try {
 				delete global.window
-				const backend = createBackend(mockManager) as HTML5Backend
+				const backend = HTML5Backend(mockManager()) as HTML5BackendImpl
 				expect(backend).toBeDefined()
 				expect(backend.window).toBeUndefined()
 			} finally {
@@ -23,13 +18,20 @@ describe('The HTML5 Backend', () => {
 			}
 		})
 
+		it('can generate a profiling object', () => {
+			const backend = HTML5Backend(mockManager()) as HTML5BackendImpl
+			expect(backend).toBeDefined()
+
+			// Expect an initially empty profile
+			const profile = backend.profile()
+			expect(profile).toBeDefined()
+			Object.keys(profile).forEach((profilingKey) =>
+				expect(profile[profilingKey]).toEqual(0),
+			)
+		})
+
 		it('uses the ambient window global', () => {
-			const mockManager: DragDropManager = {
-				getActions: () => null,
-				getMonitor: () => null,
-				getRegistry: () => null,
-			} as any
-			const backend = createBackend(mockManager, window) as HTML5Backend
+			const backend = HTML5Backend(mockManager(), window) as HTML5BackendImpl
 			expect(backend).toBeDefined()
 			expect(backend.window).toBeDefined()
 		})
@@ -38,27 +40,21 @@ describe('The HTML5 Backend', () => {
 			const fakeWindow = {
 				x: 1,
 			}
-			const mockManager: DragDropManager = {
-				getActions: () => null,
-				getMonitor: () => null,
-				getRegistry: () => null,
-			} as any
-			const backend = createBackend(mockManager, fakeWindow) as HTML5Backend
+			const backend = HTML5Backend(
+				mockManager(),
+				fakeWindow,
+			) as HTML5BackendImpl
 			expect(backend).toBeDefined()
 			expect(backend.window).toBe(fakeWindow)
 		})
 	})
 
 	describe('setup and teardown', () => {
-		let backend: HTML5Backend
-		let mockManager: DragDropManager
+		let backend: HTML5BackendImpl
+		let mgr: DragDropManager
 		let fakeWindow: any = {}
 		beforeEach(() => {
-			mockManager = {
-				getActions: () => null,
-				getMonitor: () => null,
-				getRegistry: () => null,
-			} as any
+			mgr = mockManager()
 		})
 
 		afterEach(() => {
@@ -66,9 +62,9 @@ describe('The HTML5 Backend', () => {
 		})
 
 		it('should throw error if two instances of html5 backend are setup', () => {
-			backend = createBackend(mockManager, {
+			backend = HTML5Backend(mgr, {
 				window: fakeWindow,
-			}) as HTML5Backend
+			}) as HTML5BackendImpl
 			backend.setup()
 			try {
 				backend.setup()
@@ -80,20 +76,20 @@ describe('The HTML5 Backend', () => {
 		})
 
 		it('should set __isReactDndBackendSetUp on setup', () => {
-			backend = createBackend(mockManager, fakeWindow) as HTML5Backend
+			backend = HTML5Backend(mgr, fakeWindow) as HTML5BackendImpl
 			backend.setup()
 			expect(fakeWindow.__isReactDndBackendSetUp).toBeTruthy()
 		})
 
 		it('should unset ____isReactDndBackendSetUp on teardown', () => {
-			backend = createBackend(mockManager, fakeWindow) as HTML5Backend
+			backend = HTML5Backend(mgr, fakeWindow) as HTML5BackendImpl
 			backend.setup()
 			backend.teardown()
 			expect(fakeWindow.__isReactDndBackendSetUp).toBeFalsy()
 		})
 
 		it('should be able to call setup after teardown', () => {
-			backend = createBackend(mockManager, fakeWindow) as HTML5Backend
+			backend = HTML5Backend(mgr, fakeWindow) as HTML5BackendImpl
 			backend.setup()
 			backend.teardown()
 			backend.setup()
@@ -101,3 +97,11 @@ describe('The HTML5 Backend', () => {
 		})
 	})
 })
+
+function mockManager(): DragDropManager {
+	return {
+		getActions: () => null,
+		getMonitor: () => null,
+		getRegistry: () => null,
+	} as any
+}

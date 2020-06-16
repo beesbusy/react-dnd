@@ -17,7 +17,11 @@ export interface TouchBackendOptions {
 	delayMouseStart?: number
 	touchSlop?: number
 	scrollAngleRanges?: AngleRange[]
-	getDropTargetElementsAtPoint?: Function
+	getDropTargetElementsAtPoint?: (
+		x: number,
+		y: number,
+		dropTargets: HTMLElement[],
+	) => HTMLElement[]
 }
 
 export interface AngleRange {
@@ -29,4 +33,8 @@ export enum ListenerType {
 	mouse = 'mouse',
 	touch = 'touch',
 	keyboard = 'keyboard',
+}
+
+export interface TouchBackendContext {
+	window?: Window
 }

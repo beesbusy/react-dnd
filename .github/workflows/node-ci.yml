@@ -5,10 +5,13 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [10.x, 12.x]
+        node-version: [10.x, 12.x, 14.x]
 
     steps:
       - uses: actions/checkout@v1
+
+      - name: Debug Action
+        uses: hmarr/debug-action@v1.0.0
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
@@ -86,24 +89,26 @@ jobs:
         name: Install Dependencies
         if: steps.cache-yarn-cache.outputs.cache-hit != 'true' || steps.cache-node-modules.outputs.cache-hit != 'true'
 
-      - run: yarn ci
+      - run: yarn test
         name: Execute Tests
         env:
           CI: true
 
       - name: Publish coverage to codecov.io
         uses: codecov/codecov-action@v1.0.3
-        if: success() && matrix.node-version == '12.x'
+        if: success() && matrix.node-version == '14.x'
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 
   auto-merge:
     name: Auto-Merge Dependabot PRs
     runs-on: ubuntu-latest
+    if: github.actor == 'dependabot-preview[bot]'
     needs:
       - build
     steps:
       - name: auto-merge
-        uses: ridedott/dependabot-auto-merge-action@master
+        if: github.actor == 'dependabot-preview[bot]'
+        uses: ridedott/dependabot-auto-merge-action@main
         with:
           GITHUB_TOKEN: ${{ secrets.AUTOMERGE_PAT }}

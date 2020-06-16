@@ -11,7 +11,7 @@ import {
 	DropTargetConnector,
 	DragSourceConnector,
 } from 'react-dnd'
-import ItemTypes from './ItemTypes'
+import { ItemTypes } from './ItemTypes'
 import { XYCoord } from 'dnd-core'
 
 const style = {
@@ -44,7 +44,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
 		connectDropTarget(elementRef)
 
 		const opacity = isDragging ? 0 : 1
-		useImperativeHandle<{}, CardInstance>(ref, () => ({
+		useImperativeHandle<any, CardInstance>(ref, () => ({
 			getNode: () => elementRef.current,
 		}))
 		return (
